@@ -1,0 +1,70 @@
+# Production Docker Compose - Uses pre-built images from Docker Hub
+# Usage: docker compose -f docker-compose.prod.yml up -d
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: rag-pro-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+      - ./ollama-init.sh:/ollama-init.sh
+    environment:
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen2.5:0.5b}
+    entrypoint: ["/bin/bash", "/ollama-init.sh"]
+    networks:
+      - rag-pro-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+  backend:
+    image: zezzzz1/rag-pro-backend:latest
+    container_name: rag-pro-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/data:/app/data
+      - ./backend/uploads:/app/uploads
+    environment:
+      - SECRET_KEY=${SECRET_KEY:-change-this-secret-key-in-production}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES:-10080}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen2.5:0.5b}
+    depends_on:
+      ollama:
+        condition: service_healthy
+    networks:
+      - rag-pro-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  frontend:
+    image: zezzzz1/rag-pro-frontend:latest
+    container_name: rag-pro-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - rag-pro-network
+    restart: unless-stopped
+
+networks:
+  rag-pro-network:
+    driver: bridge
+
+volumes:
+  ollama-data:
