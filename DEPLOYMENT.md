@@ -24,10 +24,10 @@ This guide explains how to deploy RAG Pro using pre-built images from Docker Hub
 
 ```bash
 # Download the production compose file
-curl -O https://raw.githubusercontent.com/zezzzz11/rag-pro/main/docker-compose.prod.yml
+curl -O https://raw.githubusercontent.com/zezzzz11/rag_pro/main/docker-compose.prod.yml
 
 # Download the Ollama init script
-curl -O https://raw.githubusercontent.com/zezzzz11/rag-pro/main/ollama-init.sh
+curl -O https://raw.githubusercontent.com/zezzzz11/rag_pro/main/ollama-init.sh
 chmod +x ollama-init.sh
 
 # Start everything
@@ -38,8 +38,8 @@ docker compose -f docker-compose.prod.yml up -d
 
 ```bash
 # Clone or copy the repository
-git clone https://github.com/zezzzz11/rag-pro.git
-cd rag-pro
+git clone https://github.com/zezzzz11/rag_pro.git
+cd rag_pro
 
 # Start with production compose file
 docker compose -f docker-compose.prod.yml up -d
@@ -131,9 +131,9 @@ ssh user@your-server.com
 curl -fsSL https://get.docker.com | sh
 
 # Deploy application
-mkdir rag-pro && cd rag-pro
-wget https://raw.githubusercontent.com/zezzzz11/rag-pro/main/docker-compose.prod.yml
-wget https://raw.githubusercontent.com/zezzzz11/rag-pro/main/ollama-init.sh
+mkdir rag_pro && cd rag_pro
+wget https://raw.githubusercontent.com/zezzzz11/rag_pro/main/docker-compose.prod.yml
+wget https://raw.githubusercontent.com/zezzzz11/rag_pro/main/ollama-init.sh
 chmod +x ollama-init.sh
 
 # Create .env file
