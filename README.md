@@ -52,6 +52,8 @@ A professional, modern RAG (Retrieval-Augmented Generation) application for docu
 - Ollama installed and running
 - llama2 model downloaded (`ollama pull llama2`)
 
+**Or use Docker** (no installation needed, see [Docker Deployment](#docker-deployment) below)
+
 ## Quick Start
 
 ### 1. Setup Backend
@@ -87,6 +89,78 @@ The application will be available at:
 ```bash
 ./stop.sh
 ```
+
+## Docker Deployment
+
+### 🐳 Quick Start with Docker (Recommended)
+
+The easiest way to run RAG Pro is with Docker. Everything is containerized including Ollama!
+
+**Prerequisites:** Docker with Compose V2 installed
+
+```bash
+# Clone the repository
+git clone https://github.com/zezzzz11/rag_pro.git
+cd rag_pro
+
+# Start all services (first time downloads ~400 MB model)
+docker compose up -d
+
+# Watch logs
+docker compose logs -f
+
+# Access the application
+# Frontend: http://localhost:3000
+# Backend: http://localhost:8000
+# API Docs: http://localhost:8000/docs
+```
+
+**Stop services:**
+```bash
+docker compose down
+```
+
+### 🚀 Deploy from Docker Hub
+
+Deploy without cloning the repository using pre-built images:
+
+```bash
+# Download production compose file
+curl -O https://raw.githubusercontent.com/zezzzz11/rag_pro/main/docker-compose.prod.yml
+curl -O https://raw.githubusercontent.com/zezzzz11/rag_pro/main/ollama-init.sh
+chmod +x ollama-init.sh
+
+# Start everything
+docker compose -f docker-compose.prod.yml up -d
+```
+
+**Docker Hub Images:**
+- Backend: `zezzzz1/rag-pro-backend:latest` (3.45 GB)
+- Frontend: `zezzzz1/rag-pro-frontend:latest` (284 MB)
+
+### ⚙️ Configuration
+
+Create a `.env` file to customize:
+
+```bash
+# Security
+SECRET_KEY=your-super-secret-key
+
+# Model selection (lightweight models recommended)
+OLLAMA_MODEL=qwen2.5:0.5b
+
+# Available models:
+# qwen2.5:0.5b  - 397 MB (fastest, testing/dev)
+# llama3.2:1b   - 1.3 GB (balanced)
+# phi3:mini     - 2.2 GB (production quality)
+# gemma2:2b     - 1.6 GB (good balance)
+```
+
+### 📚 Full Documentation
+
+For detailed Docker instructions, see:
+- **[DOCKER.md](DOCKER.md)** - Complete Docker setup and troubleshooting
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Production deployment guide for VPS, Cloud, Kubernetes
 
 ## Usage
 
