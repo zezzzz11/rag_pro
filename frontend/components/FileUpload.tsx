@@ -81,7 +81,12 @@ export function FileUpload({ onUploadSuccess }: FileUploadProps) {
       if (inputRef.current) inputRef.current.value = ""
       onUploadSuccess()
     } catch (err: any) {
-      setError(err.response?.data?.detail || "Upload failed")
+      // Handle authentication errors specifically
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        setError("Authentication failed. Please refresh the page to login again.")
+      } else {
+        setError(err.response?.data?.detail || "Upload failed")
+      }
     } finally {
       setUploading(false)
     }

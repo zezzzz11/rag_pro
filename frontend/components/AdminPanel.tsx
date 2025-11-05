@@ -68,6 +68,8 @@ export function AdminPanel() {
     } catch (err: any) {
       if (err.response?.status === 403) {
         setError("Admin access required")
+      } else if (err.response?.status === 401) {
+        setError("Authentication failed. Please login again.")
       } else {
         setError("Failed to load admin data")
       }
@@ -87,7 +89,12 @@ export function AdminPanel() {
       })
       loadData()
     } catch (err: any) {
-      alert(err.response?.data?.detail || "Failed to delete user")
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        alert("Authentication failed. Please refresh the page to login again.")
+        window.location.reload()
+      } else {
+        alert(err.response?.data?.detail || "Failed to delete user")
+      }
     }
   }
 
@@ -102,7 +109,12 @@ export function AdminPanel() {
       })
       loadData()
     } catch (err: any) {
-      alert(err.response?.data?.detail || "Failed to delete document")
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        alert("Authentication failed. Please refresh the page to login again.")
+        window.location.reload()
+      } else {
+        alert(err.response?.data?.detail || "Failed to delete document")
+      }
     }
   }
 
