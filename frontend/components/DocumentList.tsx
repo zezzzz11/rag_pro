@@ -28,8 +28,12 @@ export function DocumentList({ refreshTrigger }: DocumentListProps) {
         headers: getAuthHeaders()
       })
       setDocuments(response.data)
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to fetch documents:", error)
+      // If authentication fails, clear the document list
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        setDocuments([])
+      }
     } finally {
       setLoading(false)
     }
@@ -45,8 +49,13 @@ export function DocumentList({ refreshTrigger }: DocumentListProps) {
         headers: getAuthHeaders()
       })
       fetchDocuments()
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to delete document:", error)
+      // If authentication fails, refresh the page to force re-login
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        alert("Authentication failed. Please login again.")
+        window.location.reload()
+      }
     }
   }
 

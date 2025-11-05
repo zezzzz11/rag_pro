@@ -47,10 +47,17 @@ export function ChatInterface() {
       }
 
       setMessages((prev) => [...prev, assistantMessage])
-    } catch (error) {
+    } catch (error: any) {
+      let errorContent = "Sorry, something went wrong. Please try again."
+      
+      // Handle authentication errors specifically
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        errorContent = "Authentication failed. Please refresh the page to login again."
+      }
+      
       const errorMessage: Message = {
         role: "assistant",
-        content: "Sorry, something went wrong. Please try again.",
+        content: errorContent,
       }
       setMessages((prev) => [...prev, errorMessage])
     } finally {
