@@ -5,6 +5,7 @@ services:
   ollama:
     image: ollama/ollama:latest
     container_name: rag-pro-ollama
+    platform: linux/amd64
     ports:
       - "11434:11434"
     volumes:
