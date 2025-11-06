@@ -46,10 +46,11 @@ from database import (
 # Initialize FastAPI
 app = FastAPI(title="RAG Pro API - Multi-User")
 
-# CORS
+# CORS - Allow multiple origins for development and production
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

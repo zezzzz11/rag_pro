@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import { Button } from "./ui/button"
 import axios from "axios"
 import { getAuthHeaders } from "@/lib/auth"
+import { API_URL } from "@/lib/config"
 
 interface Document {
   id: string
@@ -24,7 +25,7 @@ export function DocumentList({ refreshTrigger }: DocumentListProps) {
   const fetchDocuments = async () => {
     setLoading(true)
     try {
-      const response = await axios.get("http://localhost:8000/documents", {
+      const response = await axios.get(`${API_URL}/documents`, {
         headers: getAuthHeaders()
       })
       setDocuments(response.data)
@@ -45,7 +46,7 @@ export function DocumentList({ refreshTrigger }: DocumentListProps) {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:8000/documents/${id}`, {
+      await axios.delete(`${API_URL}/documents/${id}`, {
         headers: getAuthHeaders()
       })
       fetchDocuments()
