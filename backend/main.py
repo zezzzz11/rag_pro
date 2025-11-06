@@ -46,29 +46,18 @@ from database import (
 # Initialize FastAPI
 app = FastAPI(title="RAG Pro API - Multi-User")
 
-# CORS - Allow dynamic IPs and multiple origins
-# Set ALLOWED_ORIGINS="*" to allow all origins (useful for DHCP/dynamic IPs)
-# Or specify origins: ALLOWED_ORIGINS="http://192.168.1.100:3000,http://localhost:3000"
+# CORS - Now only needed for Next.js server-side calls
+# All browser requests go through Next.js API routes, so we only need to allow the Next.js server
+# In Docker: Next.js runs in the same network, in dev: localhost:3000
 allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000")
-if allowed_origins_env == "*":
-    # Allow all origins (for dynamic IP environments)
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origin_regex=r".*",  # Match any origin
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-else:
-    # Allow specific origins
-    allowed_origins = allowed_origins_env.split(",")
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=allowed_origins,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+allowed_origins = allowed_origins_env.split(",")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Configuration
 UPLOAD_DIR = Path("uploads")

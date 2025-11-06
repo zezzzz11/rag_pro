@@ -9,7 +9,6 @@ import { AdminPanel } from "@/components/AdminPanel"
 import { BookOpen, LogOut, Shield } from "lucide-react"
 import { isAuthenticated, clearAuth, getUser, getAuthHeaders } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
-import { API_URL } from "@/lib/config"
 import axios from "axios"
 
 export default function Home() {
@@ -25,7 +24,7 @@ export default function Home() {
     if (auth) {
       setUser(getUser())
       // Fetch user info to check admin status and validate token
-      axios.get(`${API_URL}/auth/me`, {
+      axios.get(`/api/auth/me`, {
         headers: getAuthHeaders()
       }).then(res => {
         setIsAdmin(res.data.is_admin)

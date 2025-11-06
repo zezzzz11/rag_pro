@@ -5,7 +5,6 @@ import { Button } from "./ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import axios from "axios"
 import { setAuth } from "@/lib/auth"
-import { API_URL } from "@/lib/config"
 import { Lock, Mail, User } from "lucide-react"
 
 interface AuthProps {
@@ -31,7 +30,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
         ? { email, password }
         : { email, password, username }
 
-      const response = await axios.post(`${API_URL}${endpoint}`, data)
+      const response = await axios.post(`/api${endpoint}`, data)
       setAuth(response.data)
       onAuthSuccess()
     } catch (err: any) {

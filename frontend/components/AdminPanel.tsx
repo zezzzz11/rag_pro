@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import { Button } from "./ui/button"
 import axios from "axios"
 import { getAuthHeaders } from "@/lib/auth"
-import { API_URL } from "@/lib/config"
 import { Users, FileText, Database, Trash2, Shield } from "lucide-react"
 
 interface User {
@@ -50,19 +49,19 @@ export function AdminPanel() {
       setError("")
 
       // Load stats
-      const statsRes = await axios.get(`${API_URL}/admin/stats`, {
+      const statsRes = await axios.get(`/api/admin/stats`, {
         headers: getAuthHeaders(),
       })
       setStats(statsRes.data)
 
       // Load users
-      const usersRes = await axios.get(`${API_URL}/admin/users`, {
+      const usersRes = await axios.get(`/api/admin/users`, {
         headers: getAuthHeaders(),
       })
       setUsers(usersRes.data.users)
 
       // Load documents
-      const docsRes = await axios.get(`${API_URL}/admin/documents`, {
+      const docsRes = await axios.get(`/api/admin/documents`, {
         headers: getAuthHeaders(),
       })
       setDocuments(docsRes.data.documents)
@@ -85,7 +84,7 @@ export function AdminPanel() {
     }
 
     try {
-      await axios.delete(`${API_URL}/admin/users/${userId}`, {
+      await axios.delete(`/api/admin/users/${userId}`, {
         headers: getAuthHeaders(),
       })
       loadData()
@@ -105,7 +104,7 @@ export function AdminPanel() {
     }
 
     try {
-      await axios.delete(`${API_URL}/admin/documents/${docId}`, {
+      await axios.delete(`/api/admin/documents/${docId}`, {
         headers: getAuthHeaders(),
       })
       loadData()

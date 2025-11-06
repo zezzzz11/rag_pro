@@ -6,7 +6,6 @@ import { Button } from "./ui/button"
 import { Card, CardContent } from "./ui/card"
 import axios from "axios"
 import { getAuthHeaders } from "@/lib/auth"
-import { API_URL } from "@/lib/config"
 
 interface FileUploadProps {
   onUploadSuccess: () => void
@@ -70,7 +69,7 @@ export function FileUpload({ onUploadSuccess }: FileUploadProps) {
     formData.append("file", file)
 
     try {
-      const response = await axios.post(`${API_URL}/upload`, formData, {
+      const response = await axios.post(`/api/upload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           ...getAuthHeaders()

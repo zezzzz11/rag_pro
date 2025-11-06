@@ -6,7 +6,6 @@ import { Button } from "./ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import axios from "axios"
 import { getAuthHeaders } from "@/lib/auth"
-import { API_URL } from "@/lib/config"
 
 interface Message {
   role: "user" | "assistant"
@@ -35,7 +34,7 @@ export function ChatInterface() {
     setLoading(true)
 
     try {
-      const response = await axios.post(`${API_URL}/chat`, {
+      const response = await axios.post(`/api/chat`, {
         query: input,
       }, {
         headers: getAuthHeaders()
