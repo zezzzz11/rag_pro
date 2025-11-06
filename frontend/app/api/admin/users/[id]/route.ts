@@ -3,8 +3,9 @@ import { BACKEND_URL } from '@/lib/config';
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params;
   try {
     const authorization = request.headers.get('authorization');
 
