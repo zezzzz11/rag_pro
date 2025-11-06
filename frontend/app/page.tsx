@@ -23,13 +23,17 @@ export default function Home() {
     setAuthenticated(auth)
     if (auth) {
       setUser(getUser())
-      // Fetch user info to check admin status
+      // Fetch user info to check admin status and validate token
       axios.get("http://localhost:8000/auth/me", {
         headers: getAuthHeaders()
       }).then(res => {
         setIsAdmin(res.data.is_admin)
       }).catch(err => {
         console.error("Failed to fetch user info:", err)
+        // Token is invalid or expired, clear auth and force re-login
+        clearAuth()
+        setAuthenticated(false)
+        setUser(null)
       })
     }
   }, [])
