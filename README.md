@@ -161,6 +161,9 @@ OLLAMA_MODEL=qwen2.5:0.5b
 For detailed Docker instructions, see:
 - **[DOCKER.md](DOCKER.md)** - Complete Docker setup and troubleshooting
 - **[DEPLOYMENT.md](DEPLOYMENT.md)** - Production deployment guide for VPS, Cloud, Kubernetes
+- **[DOCKER_IMAGE_UPDATE.md](DOCKER_IMAGE_UPDATE.md)** - How to build and push updated Docker images
+
+**Note:** Docker images on Docker Hub include all authentication fixes. To update images yourself, see [DOCKER_IMAGE_UPDATE.md](DOCKER_IMAGE_UPDATE.md).
 
 ## Usage
 
